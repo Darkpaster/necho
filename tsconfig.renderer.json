@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/renderer",
+    "rootDir": "src/app/renderer",
+    "noEmit": false // Webpack берёт на себя сборку
+  },
+  "include": ["./src/app/renderer/**/*"],
+  "exclude": ["node_modules"]
+}
