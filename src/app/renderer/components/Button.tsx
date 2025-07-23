@@ -5,10 +5,10 @@ interface props extends React.HTMLProps<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-export default function ButtonContainer({ styles, children, ...rest }: props) {
+export default function Button({ styles, children, ...rest }: props) {
   return (
     <div
-      className={`flex items-center p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 ${styles}`}
+      className={`p-6 bg-gradient-to-r bg-blue-300 dark:bg-blue-600 hover:animate-ping ${styles}`}
     >
       {children}
     </div>

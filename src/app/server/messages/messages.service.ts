@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Message } from './message.entity';
 import { Chat } from '../chats/chat.entity';
-import { SendMessageDto } from './dto/send-message.dto';
-import { EditMessageDto } from './dto/edit-message.dto';
+import { SendMessageDto } from './dto/sendMessage.dto';
+import { EditMessageDto } from './dto/editMessage.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class MessagesService {

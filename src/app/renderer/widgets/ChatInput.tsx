@@ -1,17 +1,21 @@
 import { Mic, Paperclip, Send, Smile } from 'lucide-react';
 import { useState } from 'react';
+import { SendMessageDto } from '../services/types';
 
-interface props {
-  message?: string;
-  setMessage: (message: string) => void;
+interface Props {
+  sendMessage: (messageDto: SendMessageDto) => void;
+  error: string;
 }
 
-export default function ChatInput() {
+export default function ChatInput({ sendMessage, error }: Props) {
   const [message, setMessage] = useState('');
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      setMessage('');
+      sendMessage({ chatId: '', content: message });
+      if (!error) {
+        setMessage('');
+      }
     }
   };
 
@@ -30,6 +34,8 @@ export default function ChatInput() {
             className="w-full px-4 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
           />
           <Smile className="w-5 h-5 absolute right-3 top-2.5 text-gray-600 dark:text-gray-400 cursor-pointer hover:text-gray-800 dark:hover:text-gray-200" />
+
+          {error && <p style={{ color: 'red' }}>Ошибка отправки</p>}
         </div>
 
         {message.trim() ? (
@@ -44,5 +50,5 @@ export default function ChatInput() {
         )}
       </div>
     </div>
-  )
+  );
 }

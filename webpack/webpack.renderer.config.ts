@@ -1,10 +1,10 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { fileURLToPath } from 'node:url';
 import * as path from 'path';
 
-// @ts-ignore
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -12,11 +12,14 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 export default {
   mode: isDev ? 'development' : 'production',
-  entry: './src/app/renderer/main.tsx',
+  entry: {
+    main: './src/app/renderer/main.tsx',
+    styles: './src/app/renderer/index.css',
+  },
   target: 'web',
   output: {
     path: path.resolve(__dirname, './../dist/renderer'),
-    filename: 'bundle.js',
+    filename: '[name].js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
@@ -29,50 +32,56 @@ export default {
         options: {
           configFile: path.resolve(__dirname, '../tsconfig.renderer.json'),
         },
-        exclude: "/node_modules/",
+        exclude: '/node_modules/',
       },
       {
-        test: /\.css$/,
+        test: /\.css$/i,
         use: [
-          'style-loader',
-          'css-loader',
+          // Всегда использовать MiniCssExtractPlugin для создания отдельного CSS файла
+          MiniCssExtractPlugin.loader,
           {
-            loader: 'postcss-loader',
+            loader: 'css-loader',
             options: {
-              postcssOptions: {
-                config: true, // Looks for postcss.config.js automatically
-              },
-            },
+              importLoaders: 1,
+            }
           },
+          'postcss-loader'
         ],
       },
     ],
-
   },
 
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'),
-      // Add this to prevent conflicts:
       filename: 'index.html',
-      // Optional: explicitly specify chunks
-      // chunks: ['main']
     }),
-    // Remove the CopyWebpackPlugin or exclude index.html
+    // Добавляем MiniCssExtractPlugin всегда
+    new MiniCssExtractPlugin({
+      filename: isDev ? 'styles.css' : 'styles.[contenthash].css',
+      chunkFilename: '[id].css',
+    }),
     new CopyWebpackPlugin({
       patterns: [
         {
           from: path.resolve(__dirname, '../public'),
           to: '.',
           globOptions: {
-            ignore: ['**/index.html'] // Skip the HTML file
+            ignore: ['**/index.html'],
           },
-          noErrorOnMissing: true // Add this to prevent errors if files don't exist
-        }
-      ]
+          noErrorOnMissing: true,
+        },
+      ],
     }),
   ],
+
+  // Добавьте это для отладки
+  stats: {
+    assets: true,
+    modules: true,
+    chunks: true,
+  },
 
   devServer: {
     port: 3000,
@@ -81,7 +90,7 @@ export default {
       directory: path.resolve(__dirname, 'dist/renderer'),
     },
     devMiddleware: {
-      writeToDisk: true, // Helps avoid memory issues
-    }
+      writeToDisk: true,
+    },
   },
 };

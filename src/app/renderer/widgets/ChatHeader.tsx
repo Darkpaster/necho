@@ -1,24 +1,29 @@
 import { MoreVertical, Phone } from 'lucide-react';
 
 interface Props {
-
+  chatName: string;
+  status?: string;
+  avatar?: string;
 }
 
-export default function ChatHeader() {
-
+export default function ChatHeader({
+  chatName,
+  status,
+  avatar = chatName.charAt(0) + chatName.charAt(1),
+}: Props) {
   return (
     <>
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
         <div className="flex items-center">
           <div className="w-10 h-10 bg-blue-500 dark:bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold mr-3">
-            {"123"}
+            {avatar}
           </div>
           <div>
             <h2 className="font-medium text-gray-900 dark:text-gray-100">
-              {"bruh"}
+              {chatName}
             </h2>
             <p className="text-sm text-green-500 dark:text-green-400">
-              в сети
+              {status ?? status}
             </p>
           </div>
         </div>
@@ -29,5 +34,5 @@ export default function ChatHeader() {
         </div>
       </div>
     </>
-  )
+  );
 }

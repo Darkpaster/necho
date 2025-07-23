@@ -10,11 +10,11 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { MessagesService } from './messages.service';
-import { SendMessageDto } from './dto/send-message.dto';
-import { EditMessageDto } from './dto/edit-message.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../users/user.entity';
+import { JwtAuthGuard } from '../auth/jwtAuth.guard';
+import { SendMessageDto } from './dto/sendMessage.dto';
+import { EditMessageDto } from './dto/editMessage.dto';
+import { GetUser } from '../auth/getUser.decorator';
 
 @Controller('api/messages')
 @UseGuards(JwtAuthGuard)

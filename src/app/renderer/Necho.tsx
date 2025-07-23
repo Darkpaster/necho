@@ -1,20 +1,18 @@
-import "./styles/globalStyles.css";
+import React from 'react';
 import { useState } from 'react';
-import Sidebar from './widgets/Sidebar';
-import MainChatArea from './widgets/MainChatArea';
+import AuthForm from './widgets/AuthForm';
+import { AuthProvider } from './hooks/useAuth';
 
-export default function TelegramInterface() {
+export default function Necho() {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className={`flex h-screen w-screen ${darkMode ? 'dark' : 'light'}`}>
-      <div className="flex h-full w-full bg-gray-100 dark:bg-gray-900">
-
-        <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
-
-        <MainChatArea />
-
-      </div>
+    <div
+      className={`flex h-screen w-screen bg-gray-100 dark:bg-gray-900 ${darkMode ? 'dark' : 'light'}`}
+    >
+      <AuthProvider>
+        <AuthForm darkMode={darkMode} setDarkMode={setDarkMode} />
+      </AuthProvider>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { IsOptional, IsString, IsBoolean } from 'class-validator';
+import { Column } from 'typeorm';
 
 export class UpdateUserDto {
   @IsOptional()
@@ -16,4 +17,7 @@ export class UpdateUserDto {
   @IsOptional()
   @IsBoolean()
   isOnline?: boolean;
+
+  @Column({ type: 'timestamp', nullable: true })
+  lastSeen: Date;
 }

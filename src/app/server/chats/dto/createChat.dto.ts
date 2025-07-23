@@ -1,4 +1,10 @@
-import { IsString, IsOptional, IsArray, IsBoolean, IsUUID } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsArray,
+  IsBoolean,
+  IsUUID,
+} from 'class-validator';
 
 export class CreateChatDto {
   @IsOptional()

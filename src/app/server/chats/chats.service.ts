@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Chat } from './chat.entity';
 import { User } from '../users/user.entity';
 import { Message } from '../messages/message.entity';
-import { CreateChatDto } from './dto/create-chat.dto';
+import { CreateChatDto } from './dto/createChat.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ChatsService {
@@ -20,7 +20,7 @@ export class ChatsService {
   async create(createChatDto: CreateChatDto, creatorId: string): Promise<Chat> {
     const participants = await this.usersRepository.findByIds([
       ...createChatDto.participantIds,
-      creatorId
+      creatorId,
     ]);
 
     if (participants.length !== createChatDto.participantIds.length + 1) {
@@ -29,7 +29,10 @@ export class ChatsService {
 
     // Проверяем, существует ли уже приватный чат между этими пользователями
     if (!createChatDto.isGroup && createChatDto.participantIds.length === 1) {
-      const existingChat = await this.findPrivateChat(creatorId, createChatDto.participantIds[0]);
+      const existingChat = await this.findPrivateChat(
+        creatorId,
+        createChatDto.participantIds[0],
+      );
       if (existingChat) {
         return existingChat;
       }
@@ -83,7 +86,10 @@ export class ChatsService {
     return chat;
   }
 
-  private async findPrivateChat(user1Id: string, user2Id: string): Promise<Chat | null> {
+  private async findPrivateChat(
+    user1Id: string,
+    user2Id: string,
+  ): Promise<Chat | null> {
     const chat = await this.chatsRepository
       .createQueryBuilder('chat')
       .leftJoinAndSelect('chat.participants', 'participants')
@@ -103,15 +109,21 @@ export class ChatsService {
     return chat;
   }
 
-  async addParticipant(chatId: string, userId: string, newParticipantId: string): Promise<Chat> {
+  async addParticipant(
+    chatId: string,
+    userId: string,
+    newParticipantId: string,
+  ): Promise<Chat> {
     const chat = await this.findOne(chatId, userId);
 
     if (!chat.isGroup) {
-      throw new ForbiddenException('Нельзя добавлять участников в приватный чат');
+      throw new ForbiddenException(
+        'Нельзя добавлять участников в приватный чат',
+      );
     }
 
     const newParticipant = await this.usersRepository.findOne({
-      where: { id: newParticipantId }
+      where: { id: newParticipantId },
     });
 
     if (!newParticipant) {
@@ -127,22 +139,34 @@ export class ChatsService {
     return this.chatsRepository.save(chat);
   }
 
-  async removeParticipant(chatId: string, userId: string, participantId: string): Promise<Chat> {
+  async removeParticipant(
+    chatId: string,
+    userId: string,
+    participantId: string,
+  ): Promise<Chat> {
     const chat = await this.findOne(chatId, userId);
 
     if (!chat.isGroup) {
-      throw new ForbiddenException('Нельзя удалять участников из приватного чата');
+      throw new ForbiddenException(
+        'Нельзя удалять участников из приватного чата',
+      );
     }
 
     chat.participants = chat.participants.filter(p => p.id !== participantId);
     return this.chatsRepository.save(chat);
   }
 
-  async updateChatInfo(chatId: string, userId: string, updateData: { name?: string; avatar?: string }): Promise<Chat> {
+  async updateChatInfo(
+    chatId: string,
+    userId: string,
+    updateData: { name?: string; avatar?: string },
+  ): Promise<Chat> {
     const chat = await this.findOne(chatId, userId);
 
     if (!chat.isGroup) {
-      throw new ForbiddenException('Нельзя изменять информацию приватного чата');
+      throw new ForbiddenException(
+        'Нельзя изменять информацию приватного чата',
+      );
     }
 
     Object.assign(chat, updateData);

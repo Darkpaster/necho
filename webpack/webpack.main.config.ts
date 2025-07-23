@@ -1,10 +1,10 @@
 import { fileURLToPath } from 'node:url';
 import * as path from 'path';
 
-// @ts-ignore
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-console.error(__dirname);
+
+// const preloadPath = path.join(__dirname, 'preload.js');
 
 export default {
   mode: 'development',
@@ -13,6 +13,10 @@ export default {
   output: {
     path: path.resolve(__dirname, '../dist/main'),
     filename: 'main.js',
+    module: true,
+  },
+  experiments: {
+    outputModule: true, // Включаем поддержку ESM на выходе
   },
   resolve: {
     extensions: ['.ts', '.js'],
@@ -24,6 +28,9 @@ export default {
         loader: 'ts-loader',
         options: {
           configFile: path.resolve(__dirname, '../tsconfig.main.json'),
+          compilerOptions: {
+            module: 'ESNext', // Форсируем ESM
+          },
         },
       },
     ],
@@ -31,5 +38,10 @@ export default {
   node: {
     __dirname: false,
     __filename: false,
+    global: false,
   },
+  // externals: {
+    // Указываем, что Electron должен загружаться через import
+    // electron: 'import("electron")',
+  // },
 };

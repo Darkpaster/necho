@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcryptjs';
 import { User } from './user.entity';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/createUser.dto';
+import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from './dto/updateUser.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
@@ -37,14 +37,31 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return this.usersRepository.find({
-      select: ['id', 'username', 'firstName', 'lastName', 'avatar', 'isOnline', 'lastSeen'],
+      select: [
+        'id',
+        'username',
+        'firstName',
+        'lastName',
+        'avatar',
+        'isOnline',
+        'lastSeen',
+      ],
     });
   }
 
   async findOne(id: string): Promise<User> {
     const user = await this.usersRepository.findOne({
       where: { id },
-      select: ['id', 'username', 'email', 'firstName', 'lastName', 'avatar', 'isOnline', 'lastSeen'],
+      select: [
+        'id',
+        'username',
+        'email',
+        'firstName',
+        'lastName',
+        'avatar',
+        'isOnline',
+        'lastSeen',
+      ],
     });
 
     if (!user) {
@@ -87,7 +104,8 @@ export class UsersService {
     return this.usersRepository
       .createQueryBuilder('user')
       .where('user.id != :currentUserId', { currentUserId })
-      .andWhere('(user.username ILIKE :query OR user.firstName ILIKE :query OR user.lastName ILIKE :query)',
+      .andWhere(
+        '(user.username ILIKE :query OR user.firstName ILIKE :query OR user.lastName ILIKE :query)',
         { query: `%${query}%` })
       .select(['user.id', 'user.username', 'user.firstName', 'user.lastName', 'user.avatar', 'user.isOnline'])
       .getMany();

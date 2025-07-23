@@ -5,6 +5,12 @@
     "rootDir": "src/app/main",
     "noEmit": false
   },
+  "paths": {
+    "@/*": ["*"],
+    "@server/*": ["app/server/*"],
+    "@main/*": ["app/main/*"],
+    "@renderer/*": ["app/renderer/*"]
+  },
   "include": ["./src/app/main/**/*"],
   "exclude": ["node_modules"]
 }

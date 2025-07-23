@@ -12,8 +12,8 @@ import { Server, Socket } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { MessagesService } from './messages.service';
 import { UsersService } from '../users/users.service';
-import { SendMessageDto } from './dto/send-message.dto';
-import { EditMessageDto } from './dto/edit-message.dto';
+import { SendMessageDto } from './dto/sendMessage.dto';
+import { EditMessageDto } from './dto/editMessage.dto';
 
 interface AuthenticatedSocket extends Socket {
   userId?: string;
@@ -122,7 +122,7 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
       return { success: true, message };
     } catch (error) {
       this.logger.error('Send message error:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: error.toString() };
     }
   }
 
@@ -144,7 +144,7 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
       return { success: true, message };
     } catch (error) {
       this.logger.error('Edit message error:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: error.toString() };
     }
   }
 
@@ -166,7 +166,7 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
       return { success: true };
     } catch (error) {
       this.logger.error('Delete message error:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: error.toString() };
     }
   }
 
