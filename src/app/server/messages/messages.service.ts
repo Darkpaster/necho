@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Message } from './message.entity';
-import { Chat } from '../chats/chat.entity';
-import { SendMessageDto } from './dto/sendMessage.dto';
-import { EditMessageDto } from './dto/editMessage.dto';
+import { Message } from './message.entity.js';
+import { Chat } from '../chats/chat.entity.js';
+import { SendMessageDto } from './dto/sendMessage.dto.js';
+import { EditMessageDto } from './dto/editMessage.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -15,8 +15,10 @@ export class MessagesService {
     private chatsRepository: Repository<Chat>,
   ) {}
 
-  async sendMessage(sendMessageDto: SendMessageDto, senderId: string): Promise<Message> {
-    // Проверяем доступ к чату
+  async sendMessage(
+    sendMessageDto: SendMessageDto,
+    senderId: string,
+  ): Promise<Message> {
     const chat = await this.chatsRepository
       .createQueryBuilder('chat')
       .leftJoinAndSelect('chat.participants', 'participants')
@@ -28,7 +30,6 @@ export class MessagesService {
       throw new ForbiddenException('У вас нет доступа к этому чату');
     }
 
-    // Проверяем реплай
     let replyTo = null;
     if (sendMessageDto.replyToId) {
       replyTo = await this.messagesRepository.findOne({
@@ -52,19 +53,22 @@ export class MessagesService {
 
     const savedMessage = await this.messagesRepository.save(message);
 
-    // Обновляем время последнего обновления чата
     await this.chatsRepository.update(sendMessageDto.chatId, {
       updatedAt: new Date()
     });
 
-    // Возвращаем сообщение с полной информацией
     return this.messagesRepository.findOne({
       where: { id: savedMessage.id },
       relations: ['sender', 'replyTo', 'replyTo.sender'],
     });
   }
 
-  async getChatMessages(chatId: string, userId: string, page: number = 1, limit: number = 50): Promise<Message[]> {
+  async getChatMessages(
+    chatId: string,
+    userId: string,
+    page: number = 1,
+    limit: number = 50,
+  ): Promise<Message[]> {
     // Проверяем доступ к чату
     const chat = await this.chatsRepository
       .createQueryBuilder('chat')

@@ -1,7 +1,7 @@
 import { Profiler, StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import Necho from './Necho';
-import './index.css'; // Переместите импорт сюда
+import './index.css';
 
 const handleRender = (
   id: any,

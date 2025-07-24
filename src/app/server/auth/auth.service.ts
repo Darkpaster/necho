@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UsersService } from '../users/users.service';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
+import { UsersService } from '../users/users.service.js';
+import { LoginDto } from './dto/login.dto.js';
+import { RegisterDto } from './dto/register.dto.js';
 
 @Injectable()
 export class AuthService {
@@ -38,7 +38,6 @@ export class AuthService {
       throw new UnauthorizedException('Неверный email или пароль');
     }
 
-    // Обновляем статус онлайн
     await this.usersService.updateOnlineStatus(user.id, true);
 
     const payload = { username: user.username, sub: user.id };

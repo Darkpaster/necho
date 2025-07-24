@@ -1,5 +1,5 @@
 import { IsString, IsUUID, IsOptional, IsEnum } from 'class-validator';
-import { MessageType } from '../message.entity';
+import { MessageType } from '../message.entity.js';
 
 export class SendMessageDto {
   @IsString()

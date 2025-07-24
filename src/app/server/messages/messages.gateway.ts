@@ -10,10 +10,10 @@ import {
 import { UseGuards, Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
-import { MessagesService } from './messages.service';
-import { UsersService } from '../users/users.service';
-import { SendMessageDto } from './dto/sendMessage.dto';
-import { EditMessageDto } from './dto/editMessage.dto';
+import { MessagesService } from './messages.service.js';
+import { UsersService } from '../users/users.service.js';
+import { SendMessageDto } from './dto/sendMessage.dto.js';
+import { EditMessageDto } from './dto/editMessage.dto.js';
 
 interface AuthenticatedSocket extends Socket {
   userId?: string;
@@ -58,10 +58,8 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
       client.userId = user.id;
       this.connectedUsers.set(user.id, client.id);
 
-      // Обновляем статус пользователя на онлайн
       await this.usersService.updateOnlineStatus(user.id, true);
 
-      // Уведомляем других пользователей о том, что пользователь онлайн
       client.broadcast.emit('user-online', {
         userId: user.id,
         username: user.username,
@@ -78,10 +76,8 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
     if (client.userId) {
       this.connectedUsers.delete(client.userId);
 
-      // Обновляем статус пользователя на оффлайн
       await this.usersService.updateOnlineStatus(client.userId, false);
 
-      // Уведомляем других пользователей о том, что пользователь оффлайн
       client.broadcast.emit('user-offline', {
         userId: client.userId,
       });
@@ -116,7 +112,6 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
     try {
       const message = await this.messagesService.sendMessage(sendMessageDto, client.userId);
 
-      // Отправляем сообщение всем участникам чата
       this.server.to(`chat-${sendMessageDto.chatId}`).emit('new-message', message);
 
       return { success: true, message };
@@ -138,7 +133,6 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
         client.userId,
       );
 
-      // Отправляем обновленное сообщение всем участникам чата
       this.server.to(`chat-${message.chatId}`).emit('message-edited', message);
 
       return { success: true, message };
@@ -157,7 +151,6 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
       const message = await this.messagesService.getMessageById(data.messageId);
       await this.messagesService.deleteMessage(data.messageId, client.userId);
 
-      // Уведомляем всех участников чата об удалении
       this.server.to(`chat-${message.chatId}`).emit('message-deleted', {
         messageId: data.messageId,
         chatId: message.chatId,
@@ -195,7 +188,6 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
     });
   }
 
-  // Метод для отправки уведомлений конкретному пользователю
   sendNotificationToUser(userId: string, event: string, data: any) {
     const socketId = this.connectedUsers.get(userId);
     if (socketId) {
@@ -203,7 +195,6 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
     }
   }
 
-  // Метод для отправки сообщений в чат
   sendMessageToChat(chatId: string, event: string, data: any) {
     this.server.to(`chat-${chatId}`).emit(event, data);
   }

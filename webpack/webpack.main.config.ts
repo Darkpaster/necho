@@ -29,7 +29,7 @@ export default {
         options: {
           configFile: path.resolve(__dirname, '../tsconfig.main.json'),
           compilerOptions: {
-            module: 'ESNext', // Форсируем ESM
+            module: 'ES2022',
           },
         },
       },
@@ -40,8 +40,4 @@ export default {
     __filename: false,
     global: false,
   },
-  // externals: {
-    // Указываем, что Electron должен загружаться через import
-    // electron: 'import("electron")',
-  // },
 };

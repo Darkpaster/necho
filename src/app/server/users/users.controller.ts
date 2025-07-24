@@ -8,11 +8,11 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { User } from './user.entity';
-import { JwtAuthGuard } from '../auth/jwtAuth.guard';
-import { UpdateUserDto } from './dto/updateUser.dto';
-import { GetUser } from '../auth/getUser.decorator';
+import { UsersService } from './users.service.js';
+import { User } from './user.entity.js';
+import { JwtAuthGuard } from '../auth/jwtAuth.guard.js';
+import { UpdateUserDto } from './dto/updateUser.dto.js';
+import { GetUser } from '../auth/getUser.decorator.js';
 
 @Controller('api/users')
 @UseGuards(JwtAuthGuard)

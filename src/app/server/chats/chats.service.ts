@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Chat } from './chat.entity';
-import { User } from '../users/user.entity';
-import { Message } from '../messages/message.entity';
-import { CreateChatDto } from './dto/createChat.dto';
+import { Chat } from './chat.entity.js';
+import { User } from '../users/user.entity.js';
+import { Message } from '../messages/message.entity.js';
+import { CreateChatDto } from './dto/createChat.dto.js';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -27,7 +27,6 @@ export class ChatsService {
       throw new NotFoundException('Некоторые пользователи не найдены');
     }
 
-    // Проверяем, существует ли уже приватный чат между этими пользователями
     if (!createChatDto.isGroup && createChatDto.participantIds.length === 1) {
       const existingChat = await this.findPrivateChat(
         creatorId,

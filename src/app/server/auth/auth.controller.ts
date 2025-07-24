@@ -1,10 +1,10 @@
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
-import { User } from '../users/user.entity';
-import { JwtAuthGuard } from './jwtAuth.guard';
-import { GetUser } from './getUser.decorator';
+import { AuthService } from './auth.service.js';
+import { LoginDto } from './dto/login.dto.js';
+import { RegisterDto } from './dto/register.dto.js';
+import { User } from '../users/user.entity.js';
+import { JwtAuthGuard } from './jwtAuth.guard.js';
+import { GetUser } from './getUser.decorator.js';
 
 @Controller('api/auth')
 export class AuthController {

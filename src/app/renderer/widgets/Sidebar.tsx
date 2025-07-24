@@ -27,7 +27,7 @@ export default function Sidebar({ darkMode, setDarkMode }: Props) {
         <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-              Telegram
+              Necho
             </h1>
             <div className="flex items-center space-x-2">
               <button

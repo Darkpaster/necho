@@ -10,7 +10,6 @@ const isDev = process.env.NODE_ENV === 'development';
 
 let mainWindow: BrowserWindow | null = null;
 
-// Фикс для __dirname в ESM
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function createWindow() {
@@ -22,13 +21,13 @@ function createWindow() {
         // nodeIntegration: false,
         contextIsolation: true, // безопасность
         sandbox: false,
-        preload: path.join(__dirname, 'preload.js'), // если нужен preload
+        preload: path.join(__dirname, 'preload.js'),
       },
     });
 
     if (isDev) {
       mainWindow.loadURL('http://localhost:3000');
-      mainWindow.webContents.openDevTools(); // опционально
+      mainWindow.webContents.openDevTools();
     } else {
       mainWindow.loadFile(path.join(__dirname, 'public/index.html'));
     }

@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { User } from '../users/user.entity';
-import { Chat } from '../chats/chat.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { User } from '../users/user.entity.js';
+import { Chat } from '../chats/chat.entity.js';
 
 export enum MessageType {
   TEXT = 'text',
@@ -35,21 +42,21 @@ export class Message {
   @Column({ type: 'timestamp', nullable: true })
   editedAt: Date;
 
-  @ManyToOne(() => User, user => user.messages, { eager: true })
+  // @ManyToOne(() => User, (user) => user.messages, { eager: true })
+  // @ManyToOne('User', 'messages', { eager: true })
   @JoinColumn({ name: 'senderId' })
-  sender: User;
+  sender: string;
 
   @Column()
   senderId: string;
 
-  @ManyToOne(() => Chat, chat => chat.messages, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Chat, (chat) => chat.messages, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'chatId' })
   chat: Chat;
 
   @Column()
   chatId: string;
 
-  // Для реплаев
   @ManyToOne(() => Message, { nullable: true })
   @JoinColumn({ name: 'replyToId' })
   replyTo: Message;

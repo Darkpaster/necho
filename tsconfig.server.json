@@ -1,16 +1,11 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "./tsconfig.json",
+  "module": "commonjs",
   "compilerOptions": {
-    "module": "ESNext",
-    "target": "ES2022",
+    "module": "commonjs",
     "outDir": "./dist/server",
-    "rootDir": "./src/app/server",
-    "baseUrl": "./src/app/server",
-    "paths": {
-      "@/*": ["*"]
-    },
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+//    "experimentalDecorators": true,
+//    "emitDecoratorMetadata": true
   },
   "include": [
     "src/app/server/**/*"
@@ -18,7 +13,10 @@
   "exclude": [
     "node_modules",
     "dist",
+    "test",
     "src/app/main",
-    "src/app/renderer"
+    "src/app/renderer",
+    "**/*.spec.ts",
+    "webpack"
   ]
 }

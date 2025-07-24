@@ -8,8 +8,8 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { User } from '../users/user.entity';
-import { Message } from '../messages/message.entity';
+import { User } from '../users/user.entity.js';
+import { Message } from '../messages/message.entity.js';
 
 @Entity('chats')
 export class Chat {

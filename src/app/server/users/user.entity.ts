@@ -6,8 +6,8 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Chat } from '../chats/chat.entity';
-import { Message } from '../messages/message.entity';
+import { Chat } from '../chats/chat.entity.js';
+import { Message } from '../messages/message.entity.js';
 
 @Entity('users')
 export class User {
@@ -47,6 +47,5 @@ export class User {
   @OneToMany(() => Message, message => message.sender)
   messages: Message[];
 
-  // Множественные связи с чатами (через промежуточную таблицу)
   chats: Chat[];
 }

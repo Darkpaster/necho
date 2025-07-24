@@ -212,5 +212,5 @@ export default function AuthForm({ darkMode, setDarkMode }: Props) {
     );
   }
 
-  return isAuthenticated ? mainContent() : authContent();
+  return !isAuthenticated ? mainContent() : authContent();
 }

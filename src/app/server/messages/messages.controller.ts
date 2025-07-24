@@ -7,14 +7,14 @@ import {
   Param,
   Delete,
   Query,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
-import { MessagesService } from './messages.service';
-import { User } from '../users/user.entity';
-import { JwtAuthGuard } from '../auth/jwtAuth.guard';
-import { SendMessageDto } from './dto/sendMessage.dto';
-import { EditMessageDto } from './dto/editMessage.dto';
-import { GetUser } from '../auth/getUser.decorator';
+import { MessagesService } from './messages.service.js';
+import { User } from '../users/user.entity.js';
+import { JwtAuthGuard } from '../auth/jwtAuth.guard.js';
+import { SendMessageDto } from './dto/sendMessage.dto.js';
+import { EditMessageDto } from './dto/editMessage.dto.js';
+import { GetUser } from '../auth/getUser.decorator.js';
 
 @Controller('api/messages')
 @UseGuards(JwtAuthGuard)
