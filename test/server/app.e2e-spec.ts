@@ -15,7 +15,6 @@ describe('Messenger API (e2e)', () => {
   let messageRepository: Repository<Message>;
   let dataSource: DataSource;
 
-  // Тестовые пользователи
   const user1: any = {
     email: 'user1@test.com',
     username: 'user1',
@@ -95,8 +94,8 @@ describe('Messenger API (e2e)', () => {
       await chatRepository.query('TRUNCATE TABLE "chats" CASCADE');
       await userRepository.query('TRUNCATE TABLE "users" CASCADE');
     } catch (e) {
-      console.error('Ошибка при очистке БД:', e); // <- Важно!
-      throw e; // Прерываем тест, если очистка не удалась
+      console.error('Ошибка при очистке БД:', e);
+      throw e;
     }
   });
 
@@ -116,13 +115,11 @@ describe('Messenger API (e2e)', () => {
       });
 
       it('должен вернуть ошибку при дублировании email', async () => {
-        // Регистрируем пользователя
         await request(app.getHttpServer())
           .post('/api/auth/register')
           .send(user1)
           .expect(201);
 
-        // Пытаемся зарегистрировать с тем же email
         await request(app.getHttpServer())
           .post('/api/auth/register')
           .send({ ...user1, username: 'different' })
@@ -1346,7 +1343,6 @@ describe('Messenger API (e2e)', () => {
   });
 });
 
-// Дополнительные утилиты для тестирования
 export class TestHelper {
   static async createTestUser(app: INestApplication, userData: any) {
     const response = await request(app.getHttpServer())

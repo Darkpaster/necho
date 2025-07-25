@@ -37,7 +37,6 @@ export default {
       {
         test: /\.css$/i,
         use: [
-          // Всегда использовать MiniCssExtractPlugin для создания отдельного CSS файла
           MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -57,7 +56,6 @@ export default {
       template: path.resolve(__dirname, '../public/index.html'),
       filename: 'index.html',
     }),
-    // Добавляем MiniCssExtractPlugin всегда
     new MiniCssExtractPlugin({
       filename: isDev ? 'styles.css' : 'styles.[contenthash].css',
       chunkFilename: '[id].css',
@@ -76,12 +74,11 @@ export default {
     }),
   ],
 
-  // Добавьте это для отладки
-  stats: {
-    assets: true,
-    modules: true,
-    chunks: true,
-  },
+  // stats: {
+  //   assets: true,
+  //   modules: true,
+  //   chunks: true,
+  // },
 
   devServer: {
     port: 3000,

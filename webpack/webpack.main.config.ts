@@ -15,9 +15,9 @@ export default {
     filename: 'main.js',
     module: true,
   },
-  experiments: {
-    outputModule: true, // Включаем поддержку ESM на выходе
-  },
+  // experiments: {
+  //   outputModule: true,
+  // },
   resolve: {
     extensions: ['.ts', '.js'],
   },

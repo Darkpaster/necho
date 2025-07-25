@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist/renderer",
     "rootDir": "src/app/renderer",
-    "noEmit": false // Webpack берёт на себя сборку
+    "noEmit": false
   },
   "include": ["./src/app/renderer/**/*"],
   "exclude": ["node_modules"]
