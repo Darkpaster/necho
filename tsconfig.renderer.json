@@ -2,9 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "dist/renderer",
-    "rootDir": "src/app/renderer",
+    "rootDir": "src/renderer",
     "noEmit": false
   },
-  "include": ["./src/app/renderer/**/*"],
+  "include": [
+    "./src/renderer/**/*"
+  ],
   "exclude": ["node_modules"]
 }

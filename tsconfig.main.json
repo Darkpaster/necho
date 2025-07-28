@@ -2,15 +2,17 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "dist/main",
-    "rootDir": "src/app/main",
+    "rootDir": "src/main",
     "noEmit": false
   },
   "paths": {
     "@/*": ["*"],
-    "@server/*": ["app/server/*"],
-    "@main/*": ["app/main/*"],
-    "@renderer/*": ["app/renderer/*"]
+    "@server/*": ["server/*"],
+    "@main/*": ["main/*"],
+    "@renderer/*": ["renderer/*"]
   },
-  "include": ["./src/app/main/**/*"],
+  "include": [
+    "./src/main/**/*"
+  ],
   "exclude": ["node_modules"]
 }

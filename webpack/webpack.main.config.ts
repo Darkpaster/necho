@@ -9,15 +9,15 @@ const __dirname = path.dirname(__filename);
 export default {
   mode: 'development',
   target: 'electron-main',
-  entry: './src/app/main/main.ts',
+  entry: './src/main/main.ts',
   output: {
     path: path.resolve(__dirname, '../dist/main'),
     filename: 'main.js',
     module: true,
   },
-  // experiments: {
-  //   outputModule: true,
-  // },
+  experiments: {
+    outputModule: true,
+  },
   resolve: {
     extensions: ['.ts', '.js'],
   },

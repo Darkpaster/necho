@@ -13,8 +13,8 @@ const isDev = process.env.NODE_ENV !== 'production';
 export default {
   mode: isDev ? 'development' : 'production',
   entry: {
-    main: './src/app/renderer/main.tsx',
-    styles: './src/app/renderer/index.css',
+    main: './src/renderer/main.tsx',
+    styles: './src/renderer/index.css',
   },
   target: 'web',
   output: {

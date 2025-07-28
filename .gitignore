@@ -3,6 +3,11 @@
 /node_modules
 /build
 
+# compiled output in the server dir
+/src/server/dist
+/src/server/node_modules
+/src/server/build
+
 # Logs
 logs
 *.log
