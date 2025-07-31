@@ -104,8 +104,8 @@ export const selectUserFullName = (state: { auth: AuthState }) => {
   const user = state.auth.user;
   if (!user) return null;
 
-  if (user.firstName && user.lastName) {
-    return `${user.firstName} ${user.lastName}`;
+  if (user.name) {
+    return `${user.name}`;
   }
 
   return user.username;

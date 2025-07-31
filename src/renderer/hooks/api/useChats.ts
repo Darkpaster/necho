@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Chat, CreateChatDto } from '../services/types';
-import { chatsService } from '../services/chatService';
+import { Chat, CreateChatDto } from '../../services/types';
+import { chatsService } from '../../services/chatService';
 
 export function useChats() {
   const [chats, setChats] = useState<Chat[]>([]);

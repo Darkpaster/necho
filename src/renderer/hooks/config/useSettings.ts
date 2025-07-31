@@ -1,5 +1,5 @@
 import { useLocalStorage } from './useLocalStorage';
-import { APP_CONFIG } from '../config/app';
+import { APP_CONFIG } from '../../config/app';
 
 interface UserSettings {
   notifications: {

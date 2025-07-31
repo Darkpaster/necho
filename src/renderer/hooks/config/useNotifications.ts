@@ -2,8 +2,8 @@ import {
   addNotification,
   removeNotification,
   selectNotifications,
-} from '../store/slices/uiSlice';
-import { useAppDispatch, useAppSelector } from '../store/store';
+} from '../../store/slices/uiSlice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 
 export const useNotifications = () => {
   const dispatch = useAppDispatch();

@@ -46,8 +46,7 @@ export class UsersService {
       select: [
         'id',
         'username',
-        'firstName',
-        'lastName',
+        'name',
         'avatar',
         'isOnline',
         'lastSeen',
@@ -62,8 +61,7 @@ export class UsersService {
         'id',
         'username',
         'email',
-        'firstName',
-        'lastName',
+        'name',
         'avatar',
         'isOnline',
         'lastSeen',
@@ -83,6 +81,10 @@ export class UsersService {
 
   async findByUsername(username: string): Promise<User> {
     return this.usersRepository.findOne({ where: { username } });
+  }
+
+  async findByName(name: string): Promise<User[]> {
+    return this.usersRepository.find({ where: { name } });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
@@ -111,14 +113,13 @@ export class UsersService {
       .createQueryBuilder('user')
       .where('user.id != :currentUserId', { currentUserId })
       .andWhere(
-        '(user.username ILIKE :query OR user.firstName ILIKE :query OR user.lastName ILIKE :query)',
+        '(user.username ILIKE :query OR user.name ILIKE :query)',
         { query: `%${query}%` },
       )
       .select([
         'user.id',
         'user.username',
-        'user.firstName',
-        'user.lastName',
+        'user.name',
         'user.avatar',
         'user.isOnline',
       ])

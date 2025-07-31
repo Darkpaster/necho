@@ -19,24 +19,21 @@ describe('Messenger API (e2e)', () => {
     email: 'user1@test.com',
     username: 'user1',
     password: 'password123',
-    firstName: 'John',
-    lastName: 'Doe',
+    name: 'John',
   };
 
   const user2: any = {
     email: 'user2@test.com',
     username: 'user2',
     password: 'password123',
-    firstName: 'Jane',
-    lastName: 'Smith',
+    name: 'Jane',
   };
 
   const user3: any = {
     email: 'user3@test.com',
     username: 'user3',
     password: 'password123',
-    firstName: 'Bob',
-    lastName: 'Johnson',
+    name: 'Bob',
   };
 
   let user1Token: string;
@@ -215,7 +212,7 @@ describe('Messenger API (e2e)', () => {
           .expect(200);
 
         expect(response.body).toHaveLength(1);
-        expect(response.body[0].firstName).toBe('Jane');
+        expect(response.body[0].name).toBe('Jane');
         expect(response.body[0].id).toBe(user2Id);
       });
 
@@ -232,8 +229,7 @@ describe('Messenger API (e2e)', () => {
     describe('PATCH /api/users/me', () => {
       it('должен обновить профиль пользователя', async () => {
         const updateData = {
-          firstName: 'Johnny',
-          lastName: 'Updated',
+          name: 'Johnny',
         };
 
         const response = await request(app.getHttpServer())
@@ -242,8 +238,7 @@ describe('Messenger API (e2e)', () => {
           .send(updateData)
           .expect(200);
 
-        expect(response.body.firstName).toBe('Johnny');
-        expect(response.body.lastName).toBe('Updated');
+        expect(response.body.name).toBe('Johnny');
       });
     });
   });
@@ -1060,13 +1055,13 @@ describe('Messenger API (e2e)', () => {
 
     it('сценарий поиска пользователей и создания чатов', async () => {
       // 1. User1 ищет пользователей по имени
-      const searchByFirstName = await request(app.getHttpServer())
+      const searchByName = await request(app.getHttpServer())
         .get('/api/users/search?q=Jane')
         .set('Authorization', `Bearer ${user1Token}`)
         .expect(200);
 
-      expect(searchByFirstName.body).toHaveLength(1);
-      expect(searchByFirstName.body[0].firstName).toBe('Jane');
+      expect(searchByName.body).toHaveLength(1);
+      expect(searchByName.body[0].name).toBe('Jane');
 
       // 2. Поиск по username
       const searchByUsername = await request(app.getHttpServer())
@@ -1084,10 +1079,10 @@ describe('Messenger API (e2e)', () => {
         .expect(200);
 
       expect(searchPartial.body).toHaveLength(1);
-      expect(searchPartial.body[0].firstName).toBe('John');
+      expect(searchPartial.body[0].name).toBe('John');
 
       // 4. Создаем чат с найденным пользователем
-      const foundUserId = searchByFirstName.body[0].id;
+      const foundUserId = searchByName.body[0].id;
       const chatResponse = await request(app.getHttpServer())
         .post('/api/chats')
         .set('Authorization', `Bearer ${user1Token}`)
@@ -1386,8 +1381,7 @@ export class TestHelper {
       email: `testuser${index}@example.com`,
       username: `testuser${index}`,
       password: 'password123',
-      firstName: `Test${index}`,
-      lastName: `User${index}`,
+      name: `Test${index}`,
     };
   }
 }

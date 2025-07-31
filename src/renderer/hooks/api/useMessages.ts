@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { EditMessageDto, Message, SendMessageDto } from '../services/types';
-import { messagesService } from '../services/messageService';
+import { EditMessageDto, Message, SendMessageDto } from '../../services/types';
+import { messagesService } from '../../services/messageService';
 
 export function useMessages(chatId: string) {
   const [messages, setMessages] = useState<Message[]>([]);

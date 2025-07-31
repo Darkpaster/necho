@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { authService } from '../services/authService';
-import { LoginDto, RegisterDto, User } from '../services/types';
-import { useAppDispatch, useAppSelector } from '../store/store';
+import { authService } from '../../services/authService';
+import { LoginDto, RegisterDto, User } from '../../services/types';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import {
   selectCurrentUser,
   updateUser,
@@ -11,7 +11,7 @@ import {
   setAuthError,
   setAuthLoading,
   clearAuthError, selectIsAuthenticated, setUser,
-} from '../store/slices/authSlice';
+} from '../../store/slices/authSlice';
 
 interface AuthContextType {
   user: User | null;
@@ -52,9 +52,12 @@ export function useAuth(): AuthContextType {
         const isAuthenticated = await authService.checkAuthStatus();
 
         if (isAuthenticated) {
+          if (user) {
+            return;
+          }
           try {
             const currentUser = await authService.getCurrentUser();
-            dispatch(updateUser(currentUser));
+            dispatch(setUser(currentUser));
           } catch (error) {
             setError(
               error instanceof Error ? error.message : 'Произошла ошибка',

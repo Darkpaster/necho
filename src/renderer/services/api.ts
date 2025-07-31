@@ -1,21 +1,14 @@
 class ApiService {
   private readonly baseURL: string;
-  // private token: string | null = null;
 
   constructor(baseURL: string = 'http://localhost:8000/api') {
     this.baseURL = baseURL;
-    // this.token = localStorage.getItem('access_token');
   }
 
   private getHeaders(): Record<string, string> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
-
-    // if (this.token) {
-    //   headers.Authorization = `Bearer ${this.token}`;
-    // }
-
     return headers;
   }
 
@@ -23,13 +16,18 @@ class ApiService {
     const url = `${this.baseURL}${endpoint}`;
     const config: RequestInit = {
       headers: this.getHeaders(),
+      credentials: 'include',
       ...options,
     };
 
     try {
+      // console.log('Making request to:', url);
+      // console.log('Request config:', config);
+
       const response = await fetch(url, config);
 
       if (!response.ok) {
+        console.error('Response not ok:', response.status, response.statusText);
         const errorData = await response.json().catch(() => ({}));
         throw new Error(
           errorData.message || `HTTP error! status: ${response.status}`,

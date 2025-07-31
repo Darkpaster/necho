@@ -1,16 +1,16 @@
-// MainChatArea.tsx - финальная версия с полной поддержкой preload
 import ChatHeader from './ChatHeader';
 import MessageContainer from '../../components/MessageContainer';
 import OptimisticMessage from '../../components/OptimisticMessage';
 import TypingIndicator from '../../components/preload/TypingIndicator';
 import LoadingSpinner from '../../components/preload/LoadingSpinner';
 import ChatInput from './ChatInput';
-import { useMessages } from '../../hooks/useMessages';
+import { useMessages } from '../../hooks/api/useMessages';
 import { Chat, Message, SendMessageDto } from '../../services/types';
 import { useState, useEffect } from 'react';
 import MessageSkeleton from '../../components/preload/skeleton/MessageSkeleton';
-import { useOptimisticMessages } from '../../hooks/useOptimisticMessages';
-import { authSlice, selectCurrentUser } from '../../store/slices/authSlice';
+import { useOptimisticMessages } from '../../hooks/ui/useOptimisticMessages';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { selectCurrentUser } from '../../store/slices/authSlice';
 
 interface Props {
   currentChat: Chat;
@@ -28,6 +28,8 @@ export default function MainChatArea({ currentChat }: Props) {
     messages,
   } = useMessages(currentChat.id);
 
+  const currentUser = useAppSelector(selectCurrentUser);
+
   const {
     optimisticMessages,
     addOptimisticMessage,
@@ -42,6 +44,13 @@ export default function MainChatArea({ currentChat }: Props) {
   // Очищаем оптимистичные сообщения при смене чата
   useEffect(() => {
     clearOptimisticMessages();
+
+    // if (messages.length === 0) {
+    //   handleSendMessage({
+    //     chatId: currentChat.id,
+    //     content: 'здарова брадок пон',
+    //   });
+    // }
   }, [currentChat.id, clearOptimisticMessages]);
 
   const handleSendMessage = async (messageDto: SendMessageDto) => {
@@ -82,16 +91,15 @@ export default function MainChatArea({ currentChat }: Props) {
   return (
     <div className="flex-1 flex flex-col">
       <ChatHeader
-        chatName={currentChat.name}
+        chatName={currentChat.name || 'Неизвестный'}
         status={currentChat.participants[0].isOnline ? 'В сети' : 'Не в сети'}
       />
 
       <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
-        {/* Кнопка "Загрузить еще" */}
         {hasMore && (
           <div className="text-center mb-4">
             {loadingMore ? (
-              <LoadingSpinner text="Загрузка сообщений..." />
+              <LoadingSpinner />
             ) : (
               <button
                 onClick={handleLoadMore}
@@ -104,7 +112,6 @@ export default function MainChatArea({ currentChat }: Props) {
         )}
 
         <div className="space-y-4">
-          {/* Показать скелеты при первоначальной загрузке */}
           {loading && messages.length === 0 ? (
             <>
               <MessageSkeleton isOwn={false} />
@@ -115,7 +122,6 @@ export default function MainChatArea({ currentChat }: Props) {
             </>
           ) : (
             <>
-              {/* Отображаем все сообщения (реальные + оптимистичные) */}
               {allMessages.map(
                 (
                   message: Message & {
@@ -128,12 +134,7 @@ export default function MainChatArea({ currentChat }: Props) {
                       <OptimisticMessage
                         key={message.id}
                         content={message.content}
-                        isOwn={
-                          message.senderId ===
-                          selectCurrentUser({
-                            auth: authSlice.getInitialState(),
-                          }).id
-                        }
+                        isOwn={message.senderId === currentUser.id}
                         isPending={message.isPending}
                         timestamp={message.createdAt}
                       />
@@ -141,19 +142,19 @@ export default function MainChatArea({ currentChat }: Props) {
                   }
 
                   return (
-                    <MessageContainer key={message.id} message={message} />
+                    <MessageContainer key={message.id} isOwn={message.senderId === currentUser.id} message={message} />
                   );
                 },
               )}
 
-              {/* Индикатор печатания */}
               {isTyping && (
-                <TypingIndicator userName={currentChat.participants[0].firstName} />
+                <TypingIndicator
+                  userName={currentChat.participants[0].name}
+                />
               )}
             </>
           )}
 
-          {/* Показать дополнительные скелеты при подгрузке новых сообщений */}
           {loading && messages.length > 0 && !loadingMore && (
             <>
               <MessageSkeleton isOwn={false} />
@@ -162,7 +163,6 @@ export default function MainChatArea({ currentChat }: Props) {
           )}
         </div>
 
-        {/* Показать ошибку если есть */}
         {error && (
           <div className="text-center py-4">
             <div className="inline-flex items-center px-4 py-2 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-lg">

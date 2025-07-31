@@ -10,6 +10,10 @@ class UsersService {
     return apiService.get<User>(`/users/${id}`);
   }
 
+  async getUsersByFirstName(name: string): Promise<User[]> {
+    return apiService.get<User[]>(`/users/${name}`);
+  }
+
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     return apiService.patch<User>(`/users/${id}`, updateUserDto);
   }

@@ -2,8 +2,7 @@ export interface User {
   id: string;
   username: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   avatar?: string;
   isOnline?: boolean;
   lastSeen?: Date;
@@ -47,8 +46,7 @@ export interface RegisterDto {
   email: string;
   username: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  name: string;
 }
 
 export interface CreateChatDto {
@@ -69,8 +67,7 @@ export interface EditMessageDto {
 }
 
 export interface UpdateUserDto {
-  firstName?: string;
-  lastName?: string;
+  name?: string;
   avatar?: string;
   isOnline?: boolean;
 }

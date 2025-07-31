@@ -42,8 +42,8 @@ export class Message {
   @Column({ type: 'timestamp', nullable: true })
   editedAt: Date;
 
-  // @ManyToOne(() => User, (user) => user.messages, { eager: true })
-  // @ManyToOne('User', 'messages', { eager: true })
+  @ManyToOne(() => User, (user) => user.messages, { eager: true })
+  @ManyToOne('User', 'messages', { eager: true })
   @JoinColumn({ name: 'senderId' })
   sender: string;
 

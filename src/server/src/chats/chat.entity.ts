@@ -35,7 +35,7 @@ export class Chat {
   @JoinTable({
     name: 'chat_participants',
     joinColumn: { name: 'chat_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' }
+    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
   })
   participants: User[];
 

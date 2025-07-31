@@ -28,8 +28,7 @@ export class AuthService {
         id: user.id,
         username: user.username,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        name: user.name,
         avatar: user.avatar,
       },
     };
@@ -54,8 +53,7 @@ export class AuthService {
         id: user.id,
         username: user.username,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        name: user.name,
         avatar: user.avatar,
       },
     };
@@ -99,8 +97,7 @@ export class AuthService {
           id: user.id,
           username: user.username,
           email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
+          name: user.name,
           avatar: user.avatar,
         },
       };
@@ -125,8 +122,7 @@ export class AuthService {
         id: user.id,
         username: user.username,
         email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        name: user.name,
         avatar: user.avatar,
       };
     } catch (error) {

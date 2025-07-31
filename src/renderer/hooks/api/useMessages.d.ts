@@ -1,4 +1,4 @@
-import { EditMessageDto, Message, SendMessageDto } from '../services/types';
+import { EditMessageDto, Message, SendMessageDto } from '../../services/types';
 export declare function useMessages(chatId: string): {
     messages: Message[];
     loading: boolean;

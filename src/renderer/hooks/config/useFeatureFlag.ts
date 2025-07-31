@@ -1,4 +1,4 @@
-import { FEATURE_FLAGS } from '../config/features';
+import { FEATURE_FLAGS } from '../../config/features';
 
 export const useFeatureFlag = (flag: keyof typeof FEATURE_FLAGS) => {
   return FEATURE_FLAGS[flag];

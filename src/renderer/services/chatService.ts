@@ -7,7 +7,7 @@ class ChatsService {
   }
 
   async getUserChats(): Promise<Chat[]> {
-    return apiService.get<Chat[]>('/chats');
+    return apiService.get<Chat[]>('/chats'); //401
   }
 
   async getChatById(id: string): Promise<Chat> {

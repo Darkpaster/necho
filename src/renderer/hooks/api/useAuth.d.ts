@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { LoginDto, RegisterDto, User } from '../services/types';
+import { LoginDto, RegisterDto, User } from '../../services/types';
 interface AuthContextType {
     user: User | null;
     loading: boolean;

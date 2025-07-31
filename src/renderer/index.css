@@ -1,2 +1,31 @@
 @import "tailwindcss";
 
+
+body {
+    overflow-y: hidden;
+    /*overflow: scroll;*/
+    /*scrollbar-color: #546581 #364153;*/
+    /*scrollbar-width: auto;*/
+    /*scrollbar-arrow-color: #364153;*/
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    background: #364153;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #546581;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+

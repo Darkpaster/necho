@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Message, SendMessageDto } from '../services/types';
+import { Message, SendMessageDto } from '../../services/types';
 
 interface OptimisticMessage extends Message {
   isOptimistic?: boolean;

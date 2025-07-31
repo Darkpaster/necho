@@ -1,4 +1,4 @@
-import { Chat, CreateChatDto } from '../services/types';
+import { Chat, CreateChatDto } from '../../services/types';
 export declare function useChats(): {
     chats: Chat[];
     loading: boolean;

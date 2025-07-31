@@ -1,10 +1,11 @@
 import Sidebar from './dashboard/Sidebar';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../hooks/api/useAuth';
 import { Suspense, useEffect, useState } from 'react';
 import Button from '../components/Button';
+import LoadingSpinner from '../components/preload/LoadingSpinner';
 
 export default function AuthForm() {
-  const { login, register, loading, isAuthenticated, error, clearError } =
+  const { login, register, loading, isAuthenticated, error } =
     useAuth();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [email, setEmail] = useState('');
@@ -13,7 +14,6 @@ export default function AuthForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async () => {
-    // setError('');
     setIsSubmitting(true);
 
     try {
@@ -24,8 +24,7 @@ export default function AuthForm() {
           email: email,
           password: password,
           username: name,
-          firstName: name,
-          lastName: name,
+          name: name,
         });
       }
     } catch (error) {
@@ -46,13 +45,13 @@ export default function AuthForm() {
       <div className="flex justify-center items-center h-full w-full">
         <div className={`min-h-1/2 min-w-1/2 flex items-center justify-center`}>
           <div
-            className={`w-full max-w-1/2 p-8 rounded-lg shadow-lg bg-white dark:bg-gray-800`}
+            className={`w-full max-w-1/2 min-w-2xs p-8 rounded-lg shadow-lg bg-white dark:bg-gray-800`}
           >
             <div className="text-center mb-8">
               <h2
                 className={`text-2xl font-bold  text-gray-700 dark:text-gray-300`}
               >
-                {isLoginMode ? 'Вход в систему' : 'Регистрация'}
+                Necho
               </h2>
               <p className={`mt-2 text-sm text-gray-600 dark:text-gray-400`}>
                 {isLoginMode
@@ -94,7 +93,7 @@ export default function AuthForm() {
                 />
               </div>
 
-              <div>
+              <div className={'mb-8'}>
                 <label
                   className={`block text-sm font-medium text-gray-700 dark:text-gray-300`}
                 >
@@ -143,16 +142,7 @@ export default function AuthForm() {
   };
 
   if (loading) {
-    return (
-      <div
-        className={`min-h-screen flex items-center justify-center dark:bg-gray-900 bg-gray-50`}
-      >
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className={`dark:text-white text-gray-800`}>Загрузка...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return isAuthenticated ? <Sidebar /> : authContent();
