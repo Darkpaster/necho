@@ -23,13 +23,45 @@ export interface Chat {
 export interface Message {
   id: string;
   content: string;
-  chatId: string;
-  senderId: string;
-  sender: User;
-  replyTo?: Message;
-  edited?: boolean;
-  editedAt?: Date;
+  type: MessageType;
+  fileName?: string;
+  fileUrl?: string;
+  edited: boolean;
   createdAt: Date;
+  editedAt?: Date;
+  sender: User;
+  senderId: string;
+  chatId: string;
+  replyTo?: Message;
+  replyToId?: string;
+}
+
+export enum MessageType {
+  TEXT = 'text',
+  IMAGE = 'image',
+  FILE = 'file',
+  AUDIO = 'audio',
+}
+
+export interface SendMessagePayload {
+  content: string;
+  chatId: string;
+  type?: MessageType;
+  fileName?: string;
+  fileUrl?: string;
+  replyToId?: string;
+}
+
+export interface EditMessagePayload {
+  content: string;
+  fileName?: string;
+  fileUrl?: string;
+}
+
+export interface TypingUser {
+  userId: string;
+  username: string;
+  chatId: string;
 }
 
 export interface AuthResponse {
@@ -60,6 +92,7 @@ export interface SendMessageDto {
   chatId: string;
   content: string;
   replyToId?: string;
+  type: MessageType;
 }
 
 export interface EditMessageDto {

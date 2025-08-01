@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Message, SendMessageDto } from '../../services/types';
 
-interface OptimisticMessage extends Message {
+export interface OptimisticMessage extends Message {
   isOptimistic?: boolean;
   isPending?: boolean;
 }
@@ -19,6 +19,8 @@ export function useOptimisticMessages() {
       sender: null,
       chatId: messageDto.chatId,
       createdAt: new Date(),
+      type: messageDto.type,
+      edited: false,
       // updatedAt: new Date(),
       isOptimistic: true,
       isPending: true,

@@ -135,7 +135,6 @@ export default function Modal({
         className={`bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full ${sizeClasses[size]} max-h-[90vh] flex flex-col ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         {(title || showCloseButton) && (
           <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             {title && (
@@ -158,7 +157,6 @@ export default function Modal({
           </div>
         )}
 
-        {/* Content */}
         <div className="flex-1 overflow-hidden">{children}</div>
       </div>
     </div>

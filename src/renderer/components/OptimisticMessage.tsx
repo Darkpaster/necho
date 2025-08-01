@@ -29,14 +29,12 @@ export default function OptimisticMessage({
             : 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600'
         }`}
       >
-        {/* Анимация отправки */}
         {isPending && (
           <div className="absolute -top-1 -right-1">
             <div className="w-3 h-3 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse"></div>
           </div>
         )}
 
-        {/* Иконка ошибки */}
         {hasError && (
           <div className="absolute -top-1 -right-1">
             <AlertCircle className="w-4 h-4 text-red-500 dark:text-red-400" />

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session } from 'electron'; // Добавил 'session' для потенциальных будущих настроек
+import { app, BrowserWindow, session } from 'electron';
 import * as path from 'path';
 import { fileURLToPath } from 'node:url';
 

@@ -1,16 +1,40 @@
 import ButtonContainer from '../../components/ButtonContainer';
 import { useChats } from '../../hooks/api/useChats';
 import { Chat, CreateChatDto, User } from '../../services/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import MainChatArea from '../chat/MainChatArea';
 import SidebarHeader from './SidebarHeader';
 import ChatSkeleton from '../../components/preload/skeleton/ChatSkeleton';
 import ChatAreaSkeleton from '../../components/preload/skeleton/ChatAreaSkeleton';
-import { useAppDispatch } from '../../store/store';
+import { createChatClient } from '../../services/RTC/wsManager';
 
 export default function Sidebar() {
   const { chats, createChat, updateChat, error, loading } = useChats();
   const [currentChat, setCurrentChat] = useState<Chat | null>(null);
+
+  const wsClient = useMemo(() => {
+    return createChatClient({
+      url: 'http://localhost:3000', // TODO: Add WS URL to .env file
+      token: 'access_token',
+      autoConnect: true,
+      reconnect: true,
+      maxReconnectAttempts: 5,
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   if (wsClient) {
+  //     wsClient.updateToken(authToken);
+  //   }
+  // }, [wsClient, authToken]);
+
+  useEffect(() => {
+    return () => {
+      if (wsClient.isConnected()) {
+        wsClient?.destroy();
+      }
+    };
+  }, [wsClient]);
 
   const handleSelectChat = (id: string) => {
     const selectedChat: Chat = chats.find((chat) => chat.id === id);
@@ -46,7 +70,11 @@ export default function Sidebar() {
   return (
     <>
       <div className="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
-        <SidebarHeader chats={chats} handleSelectChat={handleSelectChat} handleSelectUser={handleSelectUser} />
+        <SidebarHeader
+          chats={chats}
+          handleSelectChat={handleSelectChat}
+          handleSelectUser={handleSelectUser}
+        />
 
         <div className="flex-1 overflow-y-auto">
           {loading && chats.length === 0 ? (
@@ -89,8 +117,8 @@ export default function Sidebar() {
                       {chat.name}
                     </h3>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {chat.lastMessage.createdAt &&
-                        chat.lastMessage.createdAt.toString()}
+                      {chat.lastMessage?.createdAt &&
+                        chat.lastMessage?.createdAt.toString()}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
@@ -113,7 +141,7 @@ export default function Sidebar() {
       </div>
 
       {currentChat ? (
-        <MainChatArea currentChat={currentChat} />
+        <MainChatArea wsClient={wsClient} currentChat={currentChat} />
       ) : loading ? (
         <ChatAreaSkeleton />
       ) : (

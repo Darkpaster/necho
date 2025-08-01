@@ -25,7 +25,9 @@ interface AuthenticatedSocket extends Socket {
     credentials: true,
   },
 })
-export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class MessagesGateway
+  implements OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server: Server;
 
@@ -40,7 +42,9 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
 
   async handleConnection(client: AuthenticatedSocket) {
     try {
-      const token = client.handshake.auth?.token || client.handshake.headers?.authorization?.split(' ')[1];
+      const token =
+        client.handshake.auth?.token ||
+        client.handshake.headers?.authorization?.split(' ')[1];
 
       if (!token) {
         client.disconnect();
@@ -110,9 +114,14 @@ export class MessagesGateway implements OnGatewayConnection, OnGatewayDisconnect
     @MessageBody() sendMessageDto: SendMessageDto,
   ) {
     try {
-      const message = await this.messagesService.sendMessage(sendMessageDto, client.userId);
+      const message = await this.messagesService.sendMessage(
+        sendMessageDto,
+        client.userId,
+      );
 
-      this.server.to(`chat-${sendMessageDto.chatId}`).emit('new-message', message);
+      this.server
+        .to(`chat-${sendMessageDto.chatId}`)
+        .emit('new-message', message);
 
       return { success: true, message };
     } catch (error) {
